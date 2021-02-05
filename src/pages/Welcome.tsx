@@ -1,7 +1,7 @@
-import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Alert, Typography } from 'antd';
-import { useIntl, FormattedMessage } from 'umi';
+import { Alert, Card, Typography } from 'antd';
+import React from 'react';
+import { FormattedMessage, history, useIntl } from 'umi';
 import styles from './Welcome.less';
 
 const CodePreview: React.FC = ({ children }) => (
@@ -12,8 +12,10 @@ const CodePreview: React.FC = ({ children }) => (
   </pre>
 );
 
-export default (): React.ReactNode => {
+export default (props): React.ReactNode => {
   const intl = useIntl();
+  console.log(props);
+
   return (
     <PageContainer>
       <Card>

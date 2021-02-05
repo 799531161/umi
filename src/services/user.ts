@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import { API, HttpResponse } from './API';
+import { API } from './API';
 
 // export async function query() {
 //   return request<API.CurrentUser[]>('/api/users');
@@ -13,4 +13,8 @@ export async function queryCurrent(params: any) {
 
 export async function queryNotices(): Promise<any> {
   return request<{ data: API.NoticeIconData[] }>('/api/notices');
+}
+
+export async function queryRoutes() {
+  return request.get('/sys-svr/sysMenuSetting/getUserAuthorityMenuByUsername?menuType=1');
 }

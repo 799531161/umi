@@ -7,8 +7,8 @@
  */
 export default {
   dev: {
-    '/backstage': {
-      target: 'http://172.16.24.112',
+    '/api/': {
+      target: 'http://172.16.24.52',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },

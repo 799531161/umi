@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
-import { connect, history, useModel } from 'umi';
-import { outLogin } from '@/services/login';
-import { stringify } from 'querystring';
+import React, { useCallback } from 'react';
+import { history, useModel } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 

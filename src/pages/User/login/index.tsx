@@ -1,7 +1,7 @@
 import type { LoginParamsType } from '@/services/login';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import ProForm, { ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   connect,
   ConnectProps,
@@ -27,13 +27,26 @@ const Login: React.FC<PageProps> = (props: PageProps) => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
+    setInitialState({
+      ...initialState,
+      settings: {
+        menu: {
+          loading: true,
+        },
+      },
+    });
     const userInfo = await initialState?.fetchUserInfo?.();
-    console.log(userInfo, 'userInfo');
-
+    const menuData = await initialState?.fetchMenuData?.();
     if (userInfo) {
       setInitialState({
         ...initialState,
         currentUser: userInfo,
+        menuData: menuData || [],
+        settings: {
+          menu: {
+            loading: false,
+          },
+        },
       });
     }
   };
@@ -49,7 +62,6 @@ const Login: React.FC<PageProps> = (props: PageProps) => {
     });
     if (res) {
       history.replace('/');
-
       fetchUserInfo();
     }
     setSubmitting(false);
@@ -57,7 +69,6 @@ const Login: React.FC<PageProps> = (props: PageProps) => {
 
   return (
     <div className={styles.container}>
-      {login.hasLogin ? '已登录' : '未登录'}
       {/* <div className={styles.lang}>{SelectLang && <SelectLang />}</div> */}
       <div className={styles.content}>
         <div className={styles.top}>
@@ -100,7 +111,7 @@ const Login: React.FC<PageProps> = (props: PageProps) => {
               }}
               placeholder={intl.formatMessage({
                 id: 'pages.login.username.placeholder',
-                defaultMessage: '用户名: admin or user',
+                defaultMessage: '用户名: 开发环境用户名',
               })}
               rules={[
                 {
@@ -122,7 +133,7 @@ const Login: React.FC<PageProps> = (props: PageProps) => {
               }}
               placeholder={intl.formatMessage({
                 id: 'pages.login.password.placeholder',
-                defaultMessage: '密码: ant.design',
+                defaultMessage: '密码: 开发环境密码',
               })}
               rules={[
                 {

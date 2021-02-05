@@ -41,7 +41,7 @@ const errorHandler = (error: ResponseError) => {
 };
 
 const request = extend({
-  prefix: '/backstage',
+  prefix: 'http://172.16.24.52/backstage',
   timeout: 10000,
   errorHandler,
 });
