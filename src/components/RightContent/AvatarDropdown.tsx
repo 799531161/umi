@@ -13,6 +13,7 @@ export type GlobalHeaderRightProps = {
  * 退出登录，并且将当前的 url 保存
  */
 const loginOut = async () => {
+  
   localStorage.clear();
   history.replace('/user/login');
   // await outLogin();

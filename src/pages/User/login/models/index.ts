@@ -1,5 +1,6 @@
 import { HttpResponse } from '@/services/API';
 import { Login } from '@/services/login';
+import { history } from 'umi';
 import { LoginType } from './type';
 
 const login: LoginType = {
@@ -28,6 +29,12 @@ const login: LoginType = {
         },
       });
       return hasLogin;
+    },
+    *logout({ payload }, { call, select, put }) {
+      console.log('登出');
+      
+      localStorage.clear();
+      history.replace('/user/login');
     },
   },
   reducers: {

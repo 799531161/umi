@@ -1,6 +1,8 @@
 import { notification } from 'antd';
-import { extend, ResponseError } from 'umi-request';
-
+import { getDvaApp, history } from 'umi';
+import Request, { extend, ResponseError } from 'umi-request';
+const CancelToken = Request.CancelToken;
+const { token, cancel } = CancelToken.source();
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -47,18 +49,21 @@ const request = extend({
 });
 
 // request拦截器, 改变url 或 options.
-request.interceptors.request.use((url, options) => {
-  return {
-    url,
-    options: {
-      ...options,
-      interceptors: true,
-      headers: {
-        token: `${localStorage.getItem('token')}`,
+request.interceptors.request.use(
+  (url, options) => {
+    return {
+      url,
+      options: {
+        ...options,
+        interceptors: true,
+        headers: {
+          token: `${localStorage.getItem('token')}`,
+        },
       },
-    },
-  };
-});
+    };
+  },
+  { global: true },
+);
 
 // 局部拦截器使用
 request.interceptors.response.use(async (response, options) => {
@@ -70,6 +75,8 @@ request.interceptors.response.use(async (response, options) => {
       message: codeMessage[data.errorCode],
       description: data.msg,
     });
+    localStorage.clear();
+    history.replace('/user/login');
   }
   return response;
 });

@@ -5,6 +5,7 @@ export interface LoginType {
   namespace: 'login';
   effects: {
     login: Effect;
+    logout: Effect;
   };
   reducers: {};
 }

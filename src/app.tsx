@@ -25,7 +25,7 @@ export async function getInitialState(): Promise<{
       const currentUser = await queryCurrent({ accountId });
       return currentUser.obj;
     } catch (error) {
-      history.push('/user/login');
+      // history.push('/user/login');
     }
 
     return undefined;
@@ -46,15 +46,17 @@ export async function getInitialState(): Promise<{
   };
   // 如果是登录页面，不执行
   if (history.location.pathname !== '/user/login') {
-    const res = await fetchUserInfo();
-    const data = await fetchMenuData();
-    return {
-      menuData: data,
-      fetchUserInfo,
-      fetchMenuData,
-      currentUser: res,
-      settings: {},
-    };
+    if (localStorage.getItem('token')) {
+      const res = await fetchUserInfo();
+      const data = await fetchMenuData();
+      return {
+        menuData: data,
+        fetchUserInfo,
+        fetchMenuData,
+        currentUser: res,
+        settings: {},
+      };
+    }
   }
   return {
     menuData: [],
@@ -69,13 +71,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     onPageChange: () => {
-      const { currentUser } = initialState;
       const { location } = history;
-      if (!currentUser?.username && location.pathname !== '/user/login') {
-        history.push('/user/login');
-      }
       if (location.pathname === '/user/login' && localStorage.getItem('token')) {
-        // history.goBack();
+        history.goBack();
       }
     },
     menuDataRender: (menuData) => [...menuData, ...initialState.menuData],
