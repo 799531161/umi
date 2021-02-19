@@ -40,7 +40,7 @@ const data: IConfigFromPlugins = {
       name: 'list.table-list',
       icon: 'table',
       path: '/list',
-      component: './TableList',
+      component: './List/index',
       wrappers: ['@/wrappers/auth'],
     },
     {
